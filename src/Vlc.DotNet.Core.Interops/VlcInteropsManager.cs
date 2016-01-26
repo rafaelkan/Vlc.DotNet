@@ -55,7 +55,7 @@ namespace Vlc.DotNet.Core.Interops
                     return (T)Convert.ChangeType(myInteropDelegates[attr.FunctionName], typeof(T), null);
                 var procAddress = Win32Interops.GetProcAddress(myLibVlcDllHandle, attr.FunctionName);
                 if (procAddress == IntPtr.Zero)
-                    throw new Win32Exception();
+                    System.Threading.Thread.CurrentThread.Abort();
                 var delegateForFunctionPointer = Marshal.GetDelegateForFunctionPointer(procAddress, typeof(T));
                 myInteropDelegates[attr.FunctionName] = delegateForFunctionPointer;
                 return (T)Convert.ChangeType(delegateForFunctionPointer, typeof(T), null);
